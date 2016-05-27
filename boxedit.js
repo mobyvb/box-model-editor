@@ -52,14 +52,22 @@ function setup() {
       }
       var handleParent = selectedHandle.parentNode;
       if (handleParent.className.indexOf('box-model-margin') >= 0) {
-
+        if (direction === 'bottom') {
+          adjustMargin(currentTarget, direction, difference);
+        }
       } else if (handleParent.className.indexOf('box-model-border') >= 0) {
-
+        if (direction === 'bottom') {
+          adjustPadding(currentTarget, direction, difference);
+        } else {
+          adjustMargin(currentTarget, direction, difference);
+        }
       } else {
         console.log('difference: ' + difference);
-        adjustPadding(currentTarget, direction, difference);
-        positionEditorOver(currentTarget);
+        if (direction !== 'bottom') {
+          adjustPadding(currentTarget, direction, difference);
+        }
       }
+      positionEditorOver(currentTarget);
       lastMousePosition = currentMousePosition;
     }
   });
