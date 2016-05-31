@@ -12,7 +12,7 @@ function setup() {
   addEventListenerToClass('handle', 'mouseleave', function() {
     hoveredHandle = null;
   });
-  document.body.addEventListener('mousedown', function(e) {
+  document.addEventListener('mousedown', function(e) {
     if (isPartOfEditor(e.target)) {
       if (hoveredHandle) {
         selectedHandle = hoveredHandle;
@@ -26,10 +26,10 @@ function setup() {
       currentTarget = e.target;
     }
   });
-  document.body.addEventListener('mouseup', function() {
+  document.addEventListener('mouseup', function() {
     selectedHandle = null;
   });
-  document.body.addEventListener('mousemove', function(e) {
+  document.addEventListener('mousemove', function(e) {
     if (selectedHandle) {
       var currentMousePosition = {
         x: e.clientX,
