@@ -5,6 +5,8 @@ var tooltip;
 var currentTarget;
 var lastMousePosition = {x: 0, y: 0};
 
+var editorList = [];
+
 function setup() {
   // boxEditor = document.getElementById('box-model-editor');
   // tooltip = document.getElementById('box-model-tooltip');
@@ -16,23 +18,25 @@ function setup() {
   });*/
   document.addEventListener('mousedown', function(e) {
     if (BoxModelEditor.isPartOfEditor(e.target)) {
-      /*if (hoveredHandle) {
-        selectedHandle = hoveredHandle;
-        lastMousePosition = {
-          x: e.clientX,
-          y: e.clientY
-        };
-      }*/
-      console.log('part of editor');
+      for (var i = 0; i < editorList.length; i++) {
+        editorList[i].mouseDown(e);
+      }
     } else {
       var newEditor = new BoxModelEditor(e.target);
+      editorList.push(newEditor);
     }
   });
-  document.addEventListener('mouseup', function() {
+  document.addEventListener('mouseup', function(e) {
+    for (var i = 0; i < editorList.length; i++) {
+      editorList[i].mouseUp(e);
+    }
     /*selectedHandle = null;
     tooltip.style.visibility = 'hidden';*/
   });
   document.addEventListener('mousemove', function(e) {
+    for (var i = 0; i < editorList.length; i++) {
+      editorList[i].mouseMove(e);
+    }
     /*if (selectedHandle) {
       var currentMousePosition = {
         x: e.clientX,

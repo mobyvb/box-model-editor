@@ -1,5 +1,7 @@
 .box-model-editor {
   position: absolute;
+  top: 0;
+  left: 0;
 }
 .box-model-editor .box-model-outer {
   position: absolute;
