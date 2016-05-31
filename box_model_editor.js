@@ -64,22 +64,22 @@ BoxModelEditor.prototype = {
     var element = this.target;
     var targetStyles = window.getComputedStyle(element);
     var margins = {
-      top: parseInt(targetStyles.marginTop.replace('px', '')),
-      bottom: parseInt(targetStyles.marginBottom.replace('px', '')),
-      left: parseInt(targetStyles.marginLeft.replace('px', '')),
-      right: parseInt(targetStyles.marginRight.replace('px', ''))
+      top: parseInt(targetStyles.marginTop),
+      bottom: parseInt(targetStyles.marginBottom),
+      left: parseInt(targetStyles.marginLeft),
+      right: parseInt(targetStyles.marginRight)
     };
     var padding = {
-      top: parseInt(targetStyles.paddingTop.replace('px', '')),
-      bottom: parseInt(targetStyles.paddingBottom.replace('px', '')),
-      left: parseInt(targetStyles.paddingLeft.replace('px', '')),
-      right: parseInt(targetStyles.paddingRight.replace('px', ''))
+      top: parseInt(targetStyles.paddingTop),
+      bottom: parseInt(targetStyles.paddingBottom),
+      left: parseInt(targetStyles.paddingLeft),
+      right: parseInt(targetStyles.paddingRight)
     };
     var borders = {
-      top: parseInt(targetStyles.borderTopWidth.replace('px', '')),
-      bottom: parseInt(targetStyles.borderBottomWidth.replace('px', '')),
-      left: parseInt(targetStyles.borderLeftWidth.replace('px', '')),
-      right: parseInt(targetStyles.borderRightWidth.replace('px', ''))
+      top: parseInt(targetStyles.borderTopWidth),
+      bottom: parseInt(targetStyles.borderBottomWidth),
+      left: parseInt(targetStyles.borderLeftWidth),
+      right: parseInt(targetStyles.borderRightWidth)
     };
     var top = element.offsetTop - margins.top - this.editor.offsetTop;
     var left = element.offsetLeft - margins.left - this.editor.offsetLeft;
@@ -112,16 +112,16 @@ BoxModelEditor.prototype = {
   adjustPadding: function(direction, cursorPos) {
     var amount = 0;
     var middleDimensions = {
-      top: parseInt(this.middle.style.top.replace('px', '')),
-      left: parseInt(this.middle.style.left.replace('px', '')),
-      width: parseInt(this.middle.style.width.replace('px', '')),
-      height: parseInt(this.middle.style.height.replace('px', ''))
+      top: parseInt(this.middle.style.top),
+      left: parseInt(this.middle.style.left),
+      width: parseInt(this.middle.style.width),
+      height: parseInt(this.middle.style.height)
     };
     var innerDimensions = {
-      top: parseInt(this.inner.style.top.replace('px', '')),
-      left: parseInt(this.inner.style.left.replace('px', '')),
-      width: parseInt(this.inner.style.width.replace('px', '')),
-      height: parseInt(this.inner.style.height.replace('px', ''))
+      top: parseInt(this.inner.style.top),
+      left: parseInt(this.inner.style.left),
+      width: parseInt(this.inner.style.width),
+      height: parseInt(this.inner.style.height)
     };
     if (direction === 'top') {
       amount = cursorPos.y - innerDimensions.top;
@@ -134,7 +134,7 @@ BoxModelEditor.prototype = {
     }
     var targetStyles = window.getComputedStyle(this.target);
     var attributeToModify = 'padding' + capitalize(direction);
-    var oldPadding = parseInt(targetStyles[attributeToModify].replace('px', ''));
+    var oldPadding = parseInt(targetStyles[attributeToModify]);
     oldPadding += amount;
     this.target.style[attributeToModify] = oldPadding + 'px';
     return attributeToModify + ': ' + oldPadding + 'px';
@@ -142,16 +142,16 @@ BoxModelEditor.prototype = {
   adjustMargin: function(direction, cursorPos) {
     var amount = 0;
     var outerDimensions = {
-      top: parseInt(this.outer.style.top.replace('px', '')),
-      left: parseInt(this.outer.style.left.replace('px', '')),
-      width: parseInt(this.outer.style.width.replace('px', '')),
-      height: parseInt(this.outer.style.height.replace('px', ''))
+      top: parseInt(this.outer.style.top),
+      left: parseInt(this.outer.style.left),
+      width: parseInt(this.outer.style.width),
+      height: parseInt(this.outer.style.height)
     };
     var middleDimensions = {
-      top: parseInt(this.middle.style.top.replace('px', '')),
-      left: parseInt(this.middle.style.left.replace('px', '')),
-      width: parseInt(this.middle.style.width.replace('px', '')),
-      height: parseInt(this.middle.style.height.replace('px', ''))
+      top: parseInt(this.middle.style.top),
+      left: parseInt(this.middle.style.left),
+      width: parseInt(this.middle.style.width),
+      height: parseInt(this.middle.style.height)
     };
     if (direction === 'top') {
       amount = cursorPos.y - middleDimensions.top;
@@ -164,7 +164,7 @@ BoxModelEditor.prototype = {
     }
     var targetStyles = window.getComputedStyle(this.target);
     var attributeToModify = 'margin' + capitalize(direction);
-    var oldMargin = parseInt(targetStyles[attributeToModify].replace('px', ''));
+    var oldMargin = parseInt(targetStyles[attributeToModify]);
     oldMargin += amount;
     this.target.style[attributeToModify] = oldMargin + 'px';
     return attributeToModify + ': ' + oldMargin + 'px';
