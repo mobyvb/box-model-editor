@@ -55,6 +55,11 @@ function BoxModelEditor(target) {
   this.middle = middle;
   this.inner = inner;
 
+  var tooltip = document.createElement('div');
+  tooltip.className = 'box-model-tooltip';
+  document.body.appendChild(tooltip);
+  this.tooltip = tooltip;
+
   this.addHandleListeners();
   this.positionOverTarget();
 }
@@ -171,6 +176,7 @@ BoxModelEditor.prototype = {
   },
   removeFromDocument: function() {
     document.body.removeChild(this.editor);
+    document.body.removeChild(this.tooltip);
   },
   addHandleListeners: function() {
     var self = this;
@@ -204,23 +210,30 @@ BoxModelEditor.prototype = {
   mouseUp: function(e) {
     this.dragging = false;
     this.hoveredHandle = null;
+    this.tooltip.style.display = 'none';
+    this.positionOverTarget();
   },
   mouseMove: function(e) {
     if (this.dragging) {
       var mousePos = {x: e.clientX, y: e.clientY};
       var editBox = this.hoveredHandle.parentNode;
+      var tooltipText;
       if (editBox === this.outer) {
-        this.adjustMargin(this.hoverDirection, mousePos);
+        tooltipText = this.adjustMargin(this.hoverDirection, mousePos);
       } else if (editBox === this.middle) {
         if (this.hoverDirection === 'bottom') {
-          this.adjustPadding(this.hoverDirection, mousePos);
+          tooltipText = this.adjustPadding(this.hoverDirection, mousePos);
         } else {
-          this.adjustMargin(this.hoverDirection, mousePos);
+          tooltipText = this.adjustMargin(this.hoverDirection, mousePos);
         }
       } else {
-        this.adjustPadding(this.hoverDirection, mousePos);
+        tooltipText = this.adjustPadding(this.hoverDirection, mousePos);
       }
       this.positionOverTarget();
+      this.tooltip.style.display = 'block';
+      this.tooltip.style.top = (mousePos.y + 15) + 'px';
+      this.tooltip.style.left = (mousePos.x + 15) + 'px';
+      this.tooltip.innerHTML = tooltipText;
     }
   }
 };

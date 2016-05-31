@@ -96,11 +96,12 @@
   top: 50%;
   left: -5px;
 }
-#box-model-tooltip {
+.box-model-tooltip {
   border: 1px solid black;
   position: absolute;
   padding: 5px;
   font-size: 10px;
   background-color: white;
   z-index: 2;
+  display: none;
 }

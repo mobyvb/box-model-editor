@@ -15,8 +15,6 @@ function setup() {
     for (var i = 0; i < editorList.length; i++) {
       editorList[i].mouseUp(e);
     }
-    /*selectedHandle = null;
-    tooltip.style.visibility = 'hidden';*/
   });
   document.addEventListener('mousemove', function(e) {
     for (var i = 0; i < editorList.length; i++) {
