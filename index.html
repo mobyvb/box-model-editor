@@ -111,7 +111,14 @@
         top: 50%;
         left: -5px;
       }
-
+      #box-model-tooltip {
+        border: 1px solid black;
+        position: absolute;
+        padding: 5px;
+        font-size: 10px;
+        background-color: white;
+        z-index: 2;
+      }
     </style>
     <script src="boxedit.js"></script>
   </head>
@@ -139,5 +146,6 @@
         <div class="handle right-handle"></div>
       </div>
     </div>
+    <div id="box-model-tooltip"></div>
   </body>
 </html>

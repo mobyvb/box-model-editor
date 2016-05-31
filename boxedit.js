@@ -1,11 +1,13 @@
 var hoveredHandle;
 var selectedHandle;
 var boxEditor;
+var tooltip;
 var currentTarget;
 var lastMousePosition = {x: 0, y: 0};
 
 function setup() {
   boxEditor = document.getElementById('box-model-editor');
+  tooltip = document.getElementById('box-model-tooltip');
   addEventListenerToClass('handle', 'mouseenter', function(e) {
     hoveredHandle = e.target;
   });
@@ -28,6 +30,7 @@ function setup() {
   });
   document.addEventListener('mouseup', function() {
     selectedHandle = null;
+    tooltip.style.visibility = 'hidden';
   });
   document.addEventListener('mousemove', function(e) {
     if (selectedHandle) {
@@ -51,21 +54,26 @@ function setup() {
         difference = currentMousePosition.x - lastMousePosition.x;
       }
       var handleParent = selectedHandle.parentNode;
+      var changedVal;
       if (handleParent.className.indexOf('box-model-outer') >= 0) {
         if (direction === 'bottom') {
-          adjustMargin(currentTarget, direction, difference);
+          changedVal = adjustMargin(currentTarget, direction, difference);
         }
       } else if (handleParent.className.indexOf('box-model-middle') >= 0) {
         if (direction === 'bottom') {
-          adjustPadding(currentTarget, direction, difference);
+          changedVal = adjustPadding(currentTarget, direction, difference);
         } else {
-          adjustMargin(currentTarget, direction, difference);
+          changedVal = adjustMargin(currentTarget, direction, difference);
         }
       } else {
         if (direction !== 'bottom') {
-          adjustPadding(currentTarget, direction, difference);
+          changedVal = adjustPadding(currentTarget, direction, difference);
         }
       }
+      tooltip.style.visibility = 'visible';
+      tooltip.style.left = currentMousePosition.x + 15;
+      tooltip.style.top = currentMousePosition.y + 15;
+      tooltip.innerHTML = changedVal;
       positionEditorOver(currentTarget);
       lastMousePosition = currentMousePosition;
     }
@@ -152,6 +160,7 @@ function adjustPadding(target, direction, amount) {
   var oldPadding = parseInt(targetStyles[attributeToModify].replace('px', ''));
   oldPadding += amount;
   target.style[attributeToModify] = oldPadding + 'px';
+  return attributeToModify + ': ' + oldPadding + 'px';
 }
 
 function adjustMargin(target, direction, amount) {
@@ -163,6 +172,7 @@ function adjustMargin(target, direction, amount) {
   var oldMargin = parseInt(targetStyles[attributeToModify].replace('px', ''));
   oldMargin += amount;
   target.style[attributeToModify] = oldMargin + 'px';
+  return attributeToModify + ': ' + oldMargin + 'px';
 }
 
 function capitalize(str) {
