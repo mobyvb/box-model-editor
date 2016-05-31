@@ -19,11 +19,14 @@
       }
       #box-model-editor .box-model-outer {
         position: absolute;
-        border: 2px solid red;
+        border: 1px dashed black;
         box-sizing: border-box;
       }
       #box-model-editor .box-model-outer .handle {
         background-color: orange;
+      }
+      #box-model-editor .box-model-outer .handle.bottom-handle {
+        background-color: lightblue;
       }
       #box-model-editor .box-model-outer .top-handle {
         margin-right: -15px;
@@ -39,11 +42,14 @@
       }
       #box-model-editor .box-model-middle {
         position: absolute;
-        border: 2px solid blue;
+        border: 1px dashed black;
         box-sizing: border-box;
       }
       #box-model-editor .box-model-middle .handle {
         background-color: lightblue;
+      }
+      #box-model-editor .box-model-middle .handle.bottom-handle {
+        background-color: lightgreen;
       }
       #box-model-editor .box-model-middle .top-handle {
         margin-right: -5px;
@@ -59,7 +65,7 @@
       }
       #box-model-editor .box-model-inner {
         position: absolute;
-        border: 2px solid green;
+        border: 1px dashed black;
         box-sizing: border-box;
       }
       #box-model-editor .box-model-inner .handle {
