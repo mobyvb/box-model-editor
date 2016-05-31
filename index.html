@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Box Model Editor</title>
@@ -12,115 +13,10 @@
       #main-div p {
         background-color: lightgrey;
       }
-      #box-model-edit-overlay {
-        position: absolute;
-      }
-      #box-model-editor {
-        position: absolute;
-      }
-      #box-model-editor .box-model-outer {
-        position: absolute;
-        border: 1px dashed black;
-        box-sizing: border-box;
-      }
-      #box-model-editor .box-model-outer .handle {
-        background-color: orange;
-      }
-      #box-model-editor .box-model-outer .handle.bottom-handle {
-        background-color: lightblue;
-      }
-      #box-model-editor .box-model-outer .top-handle {
-        margin-right: -15px;
-      }
-      #box-model-editor .box-model-outer .bottom-handle {
-        margin-right: -15px;
-      }
-      #box-model-editor .box-model-outer .left-handle {
-        margin-top: -15px;
-      }
-      #box-model-editor .box-model-outer .right-handle {
-        margin-top: -15px;
-      }
-      #box-model-editor .box-model-middle {
-        position: absolute;
-        border: 1px dashed black;
-        box-sizing: border-box;
-      }
-      #box-model-editor .box-model-middle .handle {
-        background-color: lightblue;
-      }
-      #box-model-editor .box-model-middle .handle.bottom-handle {
-        background-color: lightgreen;
-      }
-      #box-model-editor .box-model-middle .top-handle {
-        margin-right: -5px;
-      }
-      #box-model-editor .box-model-middle .bottom-handle {
-        margin-right: -5px;
-      }
-      #box-model-editor .box-model-middle .left-handle {
-        margin-top: -5px;
-      }
-      #box-model-editor .box-model-middle .right-handle {
-        margin-top: -5px;
-      }
-      #box-model-editor .box-model-inner {
-        position: absolute;
-        border: 1px dashed black;
-        box-sizing: border-box;
-      }
-      #box-model-editor .box-model-inner .handle {
-        background-color: lightgreen;
-      }
-      #box-model-editor .box-model-inner .top-handle {
-        margin-right: 5px;
-      }
-      #box-model-editor .box-model-inner .bottom-handle {
-        margin-right: 5px;
-      }
-      #box-model-editor .box-model-inner .left-handle {
-        margin-top: 5px;
-      }
-      #box-model-editor .box-model-inner .right-handle {
-        margin-top: 5px;
-      }
-
-      .handle {
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        z-index: 1;
-        cursor: pointer;
-      }
-      .handle.selected {
-        border: 1px solid black;
-      }
-      .top-handle {
-        right: 50%;
-        top: -5px;
-      }
-      .bottom-handle {
-        right: 50%;
-        bottom: -5px;
-      }
-      .right-handle {
-        top: 50%;
-        right: -5px;
-      }
-      .left-handle {
-        top: 50%;
-        left: -5px;
-      }
-      #box-model-tooltip {
-        border: 1px solid black;
-        position: absolute;
-        padding: 5px;
-        font-size: 10px;
-        background-color: white;
-        z-index: 2;
-      }
     </style>
-    <script src="boxedit.js"></script>
+    <link rel="stylesheet" type="text/css" href="box_model_editor.css">
+    <script src="box_model_editor.js"></script>
+    <script src="main.js"></script>
   </head>
   <body>
     <div id="main-div">
