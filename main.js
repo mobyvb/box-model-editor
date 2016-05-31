@@ -6,34 +6,34 @@ var currentTarget;
 var lastMousePosition = {x: 0, y: 0};
 
 function setup() {
-  boxEditor = document.getElementById('box-model-editor');
-  tooltip = document.getElementById('box-model-tooltip');
-  addEventListenerToClass('handle', 'mouseenter', function(e) {
+  // boxEditor = document.getElementById('box-model-editor');
+  // tooltip = document.getElementById('box-model-tooltip');
+  /*addEventListenerToClass('handle', 'mouseenter', function(e) {
     hoveredHandle = e.target;
   });
   addEventListenerToClass('handle', 'mouseleave', function() {
     hoveredHandle = null;
-  });
+  });*/
   document.addEventListener('mousedown', function(e) {
-    if (isPartOfEditor(e.target)) {
-      if (hoveredHandle) {
+    if (BoxModelEditor.isPartOfEditor(e.target)) {
+      /*if (hoveredHandle) {
         selectedHandle = hoveredHandle;
         lastMousePosition = {
           x: e.clientX,
           y: e.clientY
         };
-      }
+      }*/
+      console.log('part of editor');
     } else {
-      positionEditorOver(e.target);
-      currentTarget = e.target;
+      var newEditor = new BoxModelEditor(e.target);
     }
   });
   document.addEventListener('mouseup', function() {
-    selectedHandle = null;
-    tooltip.style.visibility = 'hidden';
+    /*selectedHandle = null;
+    tooltip.style.visibility = 'hidden';*/
   });
   document.addEventListener('mousemove', function(e) {
-    if (selectedHandle) {
+    /*if (selectedHandle) {
       var currentMousePosition = {
         x: e.clientX,
         y: e.clientY
@@ -76,7 +76,7 @@ function setup() {
       tooltip.innerHTML = changedVal;
       positionEditorOver(currentTarget);
       lastMousePosition = currentMousePosition;
-    }
+    }*/
   });
 }
 
@@ -86,17 +86,6 @@ function addEventListenerToClass(label, type, cb) {
     var next = elements[i];
     next.addEventListener(type, cb);
   }
-}
-
-function isPartOfEditor(element) {
-  var node = element.parentNode;
-  while (node != null) {
-    if (node === boxEditor) {
-      return true;
-    }
-    node = node.parentNode;
-  }
-  return false;
 }
 
 function capitalize(str) {

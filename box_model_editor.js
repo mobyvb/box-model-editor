@@ -1,10 +1,55 @@
 function BoxModelEditor(target) {
   this.target = target;
+
+  var editor = document.createElement('div');
+  editor.className = 'box-model-editor';
+
+  var outer = document.createElement('div');
+  outer.className = 'box-model-outer';
+  var downOuter = document.createElement('div');
+  downOuter.className = 'handle bottom-handle';
+  outer.appendChild(downOuter);
+  editor.appendChild(outer);
+
+  var middle = document.createElement('div');
+  middle.className = 'box-model-middle';
+  var upMiddle = document.createElement('div');
+  upMiddle.className = 'handle top-handle';
+  var downMiddle = document.createElement('div');
+  downMiddle.className = 'handle bottom-handle';
+  var leftMiddle = document.createElement('div');
+  leftMiddle.className = 'handle left-handle';
+  var rightMiddle = document.createElement('div');
+  rightMiddle.className = 'handle right-handle';
+  middle.appendChild(upMiddle);
+  middle.appendChild(downMiddle);
+  middle.appendChild(leftMiddle);
+  middle.appendChild(rightMiddle);
+  editor.appendChild(middle);
+
+  var inner = document.createElement('div');
+  inner.className = 'box-model-inner';
+  var upInner = document.createElement('div');
+  upInner.className = 'handle top-handle';
+  var leftInner = document.createElement('div');
+  leftInner.className = 'handle left-handle';
+  var rightInner = document.createElement('div');
+  rightInner.className = 'handle right-handle';
+  inner.appendChild(upInner);
+  inner.appendChild(leftInner);
+  inner.appendChild(rightInner);
+  editor.appendChild(inner);
+
+  document.body.appendChild(editor);
+  this.editor = editor;
+
+  this.positionOverTarget();
 }
 
 BoxModelEditor.prototype = {
   positionOverTarget: function() {
-    var targetStyles = window.getComputedStyle(this.target);
+    var element = this.target;
+    var targetStyles = window.getComputedStyle(element);
     var margins = {
       top: parseInt(targetStyles.marginTop.replace('px', '')),
       bottom: parseInt(targetStyles.marginBottom.replace('px', '')),
@@ -23,8 +68,8 @@ BoxModelEditor.prototype = {
       left: parseInt(targetStyles.borderLeftWidth.replace('px', '')),
       right: parseInt(targetStyles.borderRightWidth.replace('px', ''))
     };
-    var top = element.offsetTop - margins.top - boxEditor.offsetTop;
-    var left = element.offsetLeft - margins.left - boxEditor.offsetLeft;
+    var top = element.offsetTop - margins.top - this.editor.offsetTop;
+    var left = element.offsetLeft - margins.left - this.editor.offsetLeft;
     var width = element.offsetWidth + margins.left + margins.right;
     var height = element.offsetHeight + margins.top + margins.bottom;
 
@@ -78,4 +123,15 @@ BoxModelEditor.prototype = {
     target.style[attributeToModify] = oldMargin + 'px';
     return attributeToModify + ': ' + oldMargin + 'px';
   }
+};
+
+BoxModelEditor.isPartOfEditor = function(target) {
+  var node = target;
+  while (node != null) {
+    if (node.className && node.className.indexOf('box-model-editor') >= 0) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  return false;
 };
