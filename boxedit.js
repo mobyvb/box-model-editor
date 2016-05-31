@@ -51,11 +51,11 @@ function setup() {
         difference = currentMousePosition.x - lastMousePosition.x;
       }
       var handleParent = selectedHandle.parentNode;
-      if (handleParent.className.indexOf('box-model-margin') >= 0) {
+      if (handleParent.className.indexOf('box-model-outer') >= 0) {
         if (direction === 'bottom') {
           adjustMargin(currentTarget, direction, difference);
         }
-      } else if (handleParent.className.indexOf('box-model-border') >= 0) {
+      } else if (handleParent.className.indexOf('box-model-middle') >= 0) {
         if (direction === 'bottom') {
           adjustPadding(currentTarget, direction, difference);
         } else {
@@ -111,31 +111,31 @@ function positionEditorOver(element) {
   var width = element.offsetWidth + margins.left + margins.right;
   var height = element.offsetHeight + margins.top + margins.bottom;
 
-  var editorMargin = document.getElementsByClassName('box-model-margin')[0];
-  var editorBorder = document.getElementsByClassName('box-model-border')[0];
-  var editorPadding = document.getElementsByClassName('box-model-padding')[0];
-  editorMargin.style.top = top + 'px';
-  editorMargin.style.left = left + 'px';
-  editorMargin.style.width = width + 'px';
-  editorMargin.style.height = height + 'px';
+  var editorOuter = document.getElementsByClassName('box-model-outer')[0];
+  var editorMiddle = document.getElementsByClassName('box-model-middle')[0];
+  var editorInner = document.getElementsByClassName('box-model-inner')[0];
+  editorOuter.style.top = top + 'px';
+  editorOuter.style.left = left + 'px';
+  editorOuter.style.width = width + 'px';
+  editorOuter.style.height = height + 'px';
 
   top += margins.top;
   left += margins.left;
   width -= (margins.left + margins.right);
   height -= (margins.top + margins.bottom);
-  editorBorder.style.top = top + 'px';
-  editorBorder.style.left = left + 'px';
-  editorBorder.style.width = width + 'px';
-  editorBorder.style.height = height + 'px';
+  editorMiddle.style.top = top + 'px';
+  editorMiddle.style.left = left + 'px';
+  editorMiddle.style.width = width + 'px';
+  editorMiddle.style.height = height + 'px';
 
   top += padding.top;
   left += padding.left;
   width -= (padding.left + padding.right);
   height -= (padding.top + padding.bottom);
-  editorPadding.style.top = top + 'px';
-  editorPadding.style.left = left + 'px';
-  editorPadding.style.width = width + 'px';
-  editorPadding.style.height = height + 'px';
+  editorInner.style.top = top + 'px';
+  editorInner.style.left = left + 'px';
+  editorInner.style.width = width + 'px';
+  editorInner.style.height = height + 'px';
 }
 
 function adjustPadding(target, direction, amount) {
