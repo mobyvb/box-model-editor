@@ -62,7 +62,6 @@ function setup() {
           adjustMargin(currentTarget, direction, difference);
         }
       } else {
-        console.log('difference: ' + difference);
         if (direction !== 'bottom') {
           adjustPadding(currentTarget, direction, difference);
         }
@@ -106,6 +105,12 @@ function positionEditorOver(element) {
     left: parseInt(targetStyles.paddingLeft.replace('px', '')),
     right: parseInt(targetStyles.paddingRight.replace('px', ''))
   };
+  var borders = {
+    top: parseInt(targetStyles.borderTopWidth.replace('px', '')),
+    bottom: parseInt(targetStyles.borderBottomWidth.replace('px', '')),
+    left: parseInt(targetStyles.borderLeftWidth.replace('px', '')),
+    right: parseInt(targetStyles.borderRightWidth.replace('px', ''))
+  };
   var top = element.offsetTop - margins.top - boxEditor.offsetTop;
   var left = element.offsetLeft - margins.left - boxEditor.offsetLeft;
   var width = element.offsetWidth + margins.left + margins.right;
@@ -128,10 +133,10 @@ function positionEditorOver(element) {
   editorMiddle.style.width = width + 'px';
   editorMiddle.style.height = height + 'px';
 
-  top += padding.top;
-  left += padding.left;
-  width -= (padding.left + padding.right);
-  height -= (padding.top + padding.bottom);
+  top += padding.top + borders.top;
+  left += padding.left + borders.left;
+  width -= padding.left + padding.right + borders.left + borders.right;
+  height -= padding.top + padding.bottom + borders.top + borders.bottom;
   editorInner.style.top = top + 'px';
   editorInner.style.left = left + 'px';
   editorInner.style.width = width + 'px';
