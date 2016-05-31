@@ -11,6 +11,11 @@ function BoxModelEditor(target) {
   downOuter.className = 'handle bottom-handle';
   this.handles.push(downOuter);
   outer.appendChild(downOuter);
+  var closeButton = document.createElement('div');
+  closeButton.innerHTML = 'Close Editor'
+  closeButton.className = 'close';
+  this.closeButton = closeButton;
+  outer.appendChild(closeButton);
   editor.appendChild(outer);
 
   var middle = document.createElement('div');
@@ -61,6 +66,7 @@ function BoxModelEditor(target) {
   this.tooltip = tooltip;
 
   this.addHandleListeners();
+  this.addCloseListener();
   this.positionOverTarget();
 }
 
@@ -201,6 +207,12 @@ BoxModelEditor.prototype = {
         }
       });
     }
+  },
+  addCloseListener: function() {
+    var self = this;
+    this.closeButton.addEventListener('click', function() {
+      self.removeFromDocument();
+    });
   },
   mouseDown: function(e) {
     if (this.hoveredHandle) {

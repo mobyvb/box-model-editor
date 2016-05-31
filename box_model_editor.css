@@ -3,6 +3,19 @@
   top: 0;
   left: 0;
 }
+.box-model-editor .close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ff8080;
+  border: 1px solid black;
+  color: white;
+  z-index: 1;
+  font-family: sans-serif;
+  font-size: 10px;
+  padding: 5px;
+  cursor: pointer;
+}
 .box-model-editor .box-model-outer {
   position: absolute;
   border: 1px dashed black;
