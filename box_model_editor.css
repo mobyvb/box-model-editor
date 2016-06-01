@@ -118,3 +118,16 @@
   z-index: 2;
   display: none;
 }
+#editor-settings {
+  font-family: sans-serif;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border: 1px solid black;
+  background-color: white;
+  z-index: 2;
+  padding: 5px;
+}
+#gridsize {
+  width: 50px;
+}

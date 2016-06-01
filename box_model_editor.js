@@ -65,6 +65,7 @@ function BoxModelEditor(target) {
   document.body.appendChild(tooltip);
   this.tooltip = tooltip;
 
+  this.addGridListeners();
   this.addHandleListeners();
   this.addCloseListener();
   this.positionOverTarget();
@@ -121,6 +122,10 @@ BoxModelEditor.prototype = {
     this.inner.style.height = height + 'px';
   },
   adjustPadding: function(direction, cursorPos) {
+    if (this.gridEnabled) {
+      cursorPos.x -= cursorPos.x % this.gridSize;
+      cursorPos.y -= cursorPos.y % this.gridSize;
+    }
     var amount = 0;
     var middleDimensions = {
       top: parseInt(this.middle.style.top),
@@ -151,6 +156,10 @@ BoxModelEditor.prototype = {
     return attributeToModify + ': ' + oldPadding + 'px';
   },
   adjustMargin: function(direction, cursorPos) {
+    if (this.gridEnabled) {
+      cursorPos.x -= cursorPos.x % this.gridSize;
+      cursorPos.y -= cursorPos.y % this.gridSize;
+    }
     var amount = 0;
     var outerDimensions = {
       top: parseInt(this.outer.style.top),
@@ -214,6 +223,29 @@ BoxModelEditor.prototype = {
       self.removeFromDocument();
     });
   },
+  addGridListeners: function() {
+    var self = this;
+    var gridCheckbox = document.getElementById('gridenabled');
+    var gridTextbox = document.getElementById('gridsize');
+    this.gridEnabled = gridCheckbox.checked;
+    var gridSize = parseInt(gridTextbox.value);
+    if (!isNaN(gridSize)) {
+      self.gridSize = gridSize;
+    } else {
+      self.gridSize = 1;
+    }
+    gridCheckbox.addEventListener('change', function(e) {
+      self.gridEnabled = gridCheckbox.checked;
+    });
+    gridTextbox.addEventListener('change', function(e) {
+      var gridSize = parseInt(gridTextbox.value);
+      if (!isNaN(gridSize)) {
+        self.gridSize = gridSize;
+      } else {
+        self.gridSize = 1;
+      }
+    })
+  },
   mouseDown: function(e) {
     if (this.hoveredHandle) {
       this.dragging = true;
@@ -252,8 +284,12 @@ BoxModelEditor.prototype = {
 
 BoxModelEditor.isPartOfEditor = function(target) {
   var node = target;
+  if (node === document.body || node === document.body.parentNode) {
+    return true;
+  }
   while (node != null) {
-    if (node.className && node.className.indexOf('box-model-editor') >= 0) {
+    if ((node.className && node.className.indexOf('box-model-editor') >= 0)
+      || node.id === 'editor-settings') {
       return true;
     }
     node = node.parentNode;
