@@ -65,7 +65,7 @@ function BoxModelEditor(target) {
   document.body.appendChild(tooltip);
   this.tooltip = tooltip;
 
-  this.addGridListeners();
+  this.addSettingListeners();
   this.addHandleListeners();
   this.addCloseListener();
   this.positionOverTarget();
@@ -127,6 +127,8 @@ BoxModelEditor.prototype = {
       cursorPos.y -= cursorPos.y % this.gridSize;
     }
     var amount = 0;
+    var attributeToModify;
+    var mirrorAttribute;
     var middleDimensions = {
       top: parseInt(this.middle.style.top),
       left: parseInt(this.middle.style.left),
@@ -141,19 +143,38 @@ BoxModelEditor.prototype = {
     };
     if (direction === 'top') {
       amount = cursorPos.y - innerDimensions.top;
+      attributeToModify = 'paddingTop';
+      mirrorAttribute = 'paddingBottom';
     } else if (direction === 'bottom') {
       amount = cursorPos.y - (middleDimensions.top + middleDimensions.height);
+      attributeToModify = 'paddingBottom';
+      mirrorAttribute = 'paddingTop';
     } else if (direction === 'left') {
       amount = cursorPos.x - innerDimensions.left;
+      attributeToModify = 'paddingLeft';
+      mirrorAttribute = 'paddingRight';
     } else {
-      amount = (innerDimensions.left + innerDimensions.width) - cursorPos.x
+      amount = (innerDimensions.left + innerDimensions.width) - cursorPos.x;
+      attributeToModify = 'paddingRight';
+      mirrorAttribute = 'paddingLeft';
     }
+
     var targetStyles = window.getComputedStyle(this.target);
-    var attributeToModify = 'padding' + capitalize(direction);
-    var oldPadding = parseInt(targetStyles[attributeToModify]);
-    oldPadding += amount;
-    this.target.style[attributeToModify] = oldPadding + 'px';
-    return attributeToModify + ': ' + oldPadding + 'px';
+    if (this.mirror) {
+      amount = parseInt(amount / 2);
+      var currPadding1 = parseInt(targetStyles[attributeToModify]);
+      var currPadding2 = parseInt(targetStyles[mirrorAttribute]);
+      currPadding1 += amount;
+      currPadding2 += amount;
+      this.target.style[attributeToModify] = currPadding1 + 'px';
+      this.target.style[mirrorAttribute] = currPadding2 + 'px';
+      return attributeToModify + ': ' + currPadding1 + 'px';
+    } else {
+      var currPadding = parseInt(targetStyles[attributeToModify]);
+      currPadding += amount;
+      this.target.style[attributeToModify] = currPadding + 'px';
+      return attributeToModify + ': ' + currPadding + 'px';
+    }
   },
   adjustMargin: function(direction, cursorPos) {
     if (this.gridEnabled) {
@@ -161,6 +182,8 @@ BoxModelEditor.prototype = {
       cursorPos.y -= cursorPos.y % this.gridSize;
     }
     var amount = 0;
+    var attributeToModify;
+    var mirrorAttribute;
     var outerDimensions = {
       top: parseInt(this.outer.style.top),
       left: parseInt(this.outer.style.left),
@@ -175,19 +198,38 @@ BoxModelEditor.prototype = {
     };
     if (direction === 'top') {
       amount = cursorPos.y - middleDimensions.top;
+      attributeToModify = 'marginTop';
+      mirrorAttribute = 'marginBottom';
     } else if (direction === 'bottom') {
       amount = cursorPos.y - (outerDimensions.top + outerDimensions.height);
+      attributeToModify = 'marginBottom';
+      mirrorAttribute = 'marginTop';
     } else if (direction === 'left') {
       amount = cursorPos.x - middleDimensions.left;
+      attributeToModify = 'marginLeft';
+      mirrorAttribute = 'marginRight';
     } else {
-      amount = (middleDimensions.left + middleDimensions.width) - cursorPos.x
+      amount = (middleDimensions.left + middleDimensions.width) - cursorPos.x;
+      attributeToModify = 'marginRight';
+      mirrorAttribute = 'marginLeft';
     }
+
     var targetStyles = window.getComputedStyle(this.target);
-    var attributeToModify = 'margin' + capitalize(direction);
-    var oldMargin = parseInt(targetStyles[attributeToModify]);
-    oldMargin += amount;
-    this.target.style[attributeToModify] = oldMargin + 'px';
-    return attributeToModify + ': ' + oldMargin + 'px';
+    if (this.mirror) {
+      amount = parseInt(amount / 2);
+      var currMargin1 = parseInt(targetStyles[attributeToModify]);
+      var currMargin2 = parseInt(targetStyles[mirrorAttribute]);
+      currMargin1 += amount;
+      currMargin2 += amount;
+      this.target.style[attributeToModify] = currMargin1 + 'px';
+      this.target.style[mirrorAttribute] = currMargin2 + 'px';
+      return attributeToModify + ': ' + currMargin1 + 'px';
+    } else {
+      var currMargin = parseInt(targetStyles[attributeToModify]);
+      currMargin += amount;
+      this.target.style[attributeToModify] = currMargin + 'px';
+      return attributeToModify + ': ' + currMargin + 'px';
+    }
   },
   removeFromDocument: function() {
     document.body.removeChild(this.editor);
@@ -223,10 +265,12 @@ BoxModelEditor.prototype = {
       self.removeFromDocument();
     });
   },
-  addGridListeners: function() {
+  addSettingListeners: function() {
     var self = this;
+    var mirrorCheckbox = document.getElementById('mirror');
     var gridCheckbox = document.getElementById('gridenabled');
     var gridTextbox = document.getElementById('gridsize');
+    this.mirror = mirrorCheckbox.checked;
     this.gridEnabled = gridCheckbox.checked;
     var gridSize = parseInt(gridTextbox.value);
     if (!isNaN(gridSize)) {
@@ -234,6 +278,9 @@ BoxModelEditor.prototype = {
     } else {
       self.gridSize = 1;
     }
+    mirrorCheckbox.addEventListener('change', function(e) {
+      self.mirror = mirrorCheckbox.checked;
+    });
     gridCheckbox.addEventListener('change', function(e) {
       self.gridEnabled = gridCheckbox.checked;
     });
